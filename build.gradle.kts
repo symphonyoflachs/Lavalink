@@ -1,8 +1,7 @@
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import org.ajoberstar.grgit.Grgit
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.dokka") version "1.8.20" apply false
@@ -19,15 +18,15 @@ plugins {
 
 allprojects {
     group = "lavalink"
-    version = versionFromTag()
+    version = "1.0.0-SNAPSHOT"
 
     repositories {
-        mavenCentral() // main maven repo
-        mavenLocal()   // useful for developing
+        mavenCentral()
+        mavenLocal()
         maven("https://m2.dv8tion.net/releases")
         maven("https://maven.lavalink.dev/releases")
         jcenter()
-        maven("https://jitpack.io") // build projects directly from GitHub
+        maven("https://jitpack.io")
     }
 }
 
@@ -104,21 +103,5 @@ subprojects {
                 }
             }
         }
-    }
-}
-
-@SuppressWarnings("GrMethodMayBeStatic")
-fun versionFromTag(): String {
-    Grgit.open(mapOf("currentDir" to project.rootDir)).use { git ->
-        val headTag = git.tag
-            .list()
-            .find { it.commit.id == git.head().id }
-
-        val clean = git.status().isClean || System.getenv("CI") != null
-        if (!clean) {
-            println("Git state is dirty, setting version as snapshot.")
-        }
-
-        return if (headTag != null && clean) headTag.name else "${git.head().id}-SNAPSHOT"
     }
 }
