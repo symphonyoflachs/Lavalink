@@ -1,0 +1,8 @@
+server:
+  port: 2333
+lavalink:
+  server:
+    password: "lavalink_passwort"
+    sources:
+      youtube: true
+      spotify: true
