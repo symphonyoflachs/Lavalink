@@ -2,16 +2,19 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Install dependencies & clone Lavalink
 COPY . /app
 
+# Installiere Git für Build mit Git-Abfragen
+RUN apt-get update && apt-get install -y git
+
+# Initialisiere ein Fake-Git-Repo für Versionierung
 RUN git init && git config user.email "you@example.com" && git config user.name "Your Name"
 
-# Port
+# Port freigeben
 EXPOSE 2333
 
-# Build the project
+# Projekt builden
 RUN ./gradlew build --no-daemon
 
-# Run Lavalink
+# Lavalink starten
 CMD ["./gradlew", "run", "--no-daemon"]
