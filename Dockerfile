@@ -14,7 +14,7 @@ RUN git init && git config user.email "you@example.com" && git config user.name 
 EXPOSE 2333
 
 # Projekt builden
-RUN ./gradlew build -x test --no-daemon
+RUN ./gradlew assemble --no-daemon
 
 # Lavalink starten
 CMD ["./gradlew", "run", "--no-daemon"]
